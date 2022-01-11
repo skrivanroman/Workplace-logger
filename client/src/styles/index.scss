@@ -1,0 +1,18 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300);
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+    // margin: 0;
+    // padding: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background-color: #f1f3fb;
+    line-height: 1.5;
+}
+
+@import './_login';
+@import './workMonitor';

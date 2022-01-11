@@ -3,7 +3,11 @@ import express from 'express'
 const authRouter = express.Router()
 
 authRouter.post('/login', (req, res) => {
-    res.send(JSON.stringify(req.body.username))
+    if (req.body.password == '123') {
+        res.send(JSON.stringify({ username: req.body.username, token: 'ok' }))
+    } else {
+        res.send(JSON.stringify({ username: '', token: '' }))
+    }
 })
 
 export default authRouter

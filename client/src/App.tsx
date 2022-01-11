@@ -1,27 +1,43 @@
-import React, { createContext, useEffect, useState } from 'react'
-import './App.css'
+import React, { createContext, useState } from 'react'
+import './styles/index.css'
 import Login from './components/Login'
+import { BrowserRouter, Redirect, Route } from 'react-router-dom'
+import PrivateRoute from './components/PrivateRoute'
+import WorkMonitor from './components/WorkMonitor'
 
-const userContext = createContext('user')
+interface UserContextType {
+    username: string
+    token: string
+    setUser: React.Dispatch<
+        React.SetStateAction<{
+            username: string
+            token: string
+        }>
+    >
+}
+
+const userContext = createContext<UserContextType>({
+    username: '',
+    token: '',
+    setUser: () => {},
+})
 
 const App: React.FC = () => {
-    const [data, setData] = useState({})
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch('http://localhost:5000/echo')
-            const data = await response.json()
-            setData(data)
-        }
-        //fetchData()
-    }, [])
+    const [user, setUser] = useState({ username: '', token: '' })
 
     return (
-        <userContext.Provider value={''}>
-            <Login />
-            <pre>{(data && JSON.stringify(data, null, 4)) ?? 'loading'}</pre>
+        <userContext.Provider value={{ ...user, setUser }}>
+            <BrowserRouter>
+                <Route path='/login'>
+                    <Login />
+                </Route>
+                <PrivateRoute path='/history'>
+                    <WorkMonitor />
+                </PrivateRoute>
+                <Redirect from='*' to='/login' />
+            </BrowserRouter>
         </userContext.Provider>
     )
 }
 
-export default App
+export { App, userContext }

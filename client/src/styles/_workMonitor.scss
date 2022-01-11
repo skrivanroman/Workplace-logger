@@ -1,0 +1,22 @@
+.place-grid {
+    margin: 3rem auto;
+    width: 70%;
+    height: 600px;
+    display: grid;
+    grid-template-rows: auto, auto, auto;
+    background-color: whitesmoke;
+}
+.place-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 30px;
+    font-size: 1.15rem;
+}
+.active {
+    background-color: green;
+}
+.non-active {
+    background-color: wheat;
+}

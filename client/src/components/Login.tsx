@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
+import { userContext } from '../App'
+import { Redirect, useLocation } from 'react-router-dom'
 import useForm from '../hooks/useForm'
 
 const Login: React.FC = () => {
     const [formState, updateForm] = useForm({ username: '', password: '' })
+    const [redirectBack, setRedirectBack] = useState(false)
+    const { setUser } = useContext(userContext)
+    const { state } = useLocation()
+    const [errMessage, setErrMessage] = useState('')
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -16,33 +22,59 @@ const Login: React.FC = () => {
             body: JSON.stringify(formState),
         })
 
-        const message = await response.json()
-        console.log(message)
+        const { username, token } = await response.json()
+        if (token) {
+            setUser({ username, token })
+            setRedirectBack(true)
+        } else {
+            setErrMessage('neplatné údaje')
+        }
+    }
+    if (redirectBack) {
+        return <Redirect to={(state as any)?.from || '/history'} />
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    jméno
-                    <input
-                        type='text'
-                        name='username'
-                        value={formState.username}
-                        onChange={updateForm}
-                    />
-                </label>
-                <label>
-                    heslo
-                    <input
-                        type='password'
-                        name='password'
-                        value={formState.password}
-                        onChange={updateForm}
-                    />
-                </label>
-                <input type='submit' name='submit' value='přihlásit' />
-            </form>
+        <div className='login-body'>
+            <main className='card'>
+                <h2 className='card-heading'>Sledování pracovišť</h2>
+                <form onSubmit={handleSubmit} className='card-form'>
+                    <div className='input'>
+                        <input
+                            type='text'
+                            name='username'
+                            value={formState.username}
+                            onChange={updateForm}
+                            className='input-field'
+                            required={true}
+                        />
+                        <label className='input-label'>jméno</label>
+                    </div>
+
+                    <div className='input'>
+                        <input
+                            type='password'
+                            name='password'
+                            value={formState.password}
+                            onChange={updateForm}
+                            className='input-field'
+                            required={true}
+                        />
+                        <label className='input-label'>heslo</label>
+                    </div>
+                    <div className='action'>
+                        <input
+                            type='submit'
+                            name='submit'
+                            value='přihlásit se'
+                            className='action-button'
+                        />
+                    </div>
+                </form>
+                <div className='card-info'>
+                    <p className='error-message'>{errMessage}</p>
+                </div>
+            </main>
         </div>
     )
 }
