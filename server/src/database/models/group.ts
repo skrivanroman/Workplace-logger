@@ -1,10 +1,10 @@
 import sequelize from '../connection'
 import { DataTypes } from 'sequelize'
 
-const WorkPlace = sequelize.define(
-    'work_place',
+const Group = sequelize.define(
+    'group',
     {
-        idWorkPlace: {
+        idGroup: {
             type: DataTypes.INTEGER,
             allowNull: false,
             autoIncrement: true,
@@ -14,16 +14,6 @@ const WorkPlace = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        roomName: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        phoneNumber: {
-            type: DataTypes.STRING,
-        },
-        sensorNumber: {
-            type: DataTypes.INTEGER,
-        },
     },
     {
         timestamps: false,
@@ -31,4 +21,4 @@ const WorkPlace = sequelize.define(
     }
 )
 
-export default WorkPlace
+export default Group

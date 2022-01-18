@@ -1,6 +1,5 @@
 import sequelize from '../connection'
 import { DataTypes } from 'sequelize'
-import WorkPlace from './workPlace'
 
 const WorkSession = sequelize.define(
     'work_session',
