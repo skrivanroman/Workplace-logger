@@ -8,6 +8,7 @@ import { getOpenPorts } from './serial/communication'
 import path from 'path'
 import cors from 'cors'
 import configRelations from './database/models/config'
+import authenticate from './middleware/authenticate'
 import loadData from './database/exportxlsx'
 
 const app = express()
@@ -21,9 +22,9 @@ app.use(express.urlencoded({ limit: '500mb', extended: true }))
 app.use(express.json({ limit: '500mb' }))
 
 app.use('/login', authRouter)
-app.use('/history', historyRouter)
-app.use('/workplace', workPlacesRouter)
-app.use(settingsRouter)
+app.use('/history', authenticate, historyRouter)
+app.use('/workplace', authenticate, workPlacesRouter)
+app.use('/settings', authenticate, settingsRouter)
 
 app.use(express.static(reactPath))
 

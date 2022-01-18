@@ -2,17 +2,18 @@
     margin: 3rem auto;
     width: 70%;
     height: 600px;
-    display: grid;
-    grid-template-rows: auto, auto, auto;
-    background-color: whitesmoke;
+    background-color: lightblue;
+    position: relative;
 }
 .place-cell {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50px;
-    height: 30px;
+    width: 70px;
+    height: 40px;
     font-size: 1.15rem;
+    position: absolute;
+    cursor: pointer;
 }
 .active {
     background-color: green;

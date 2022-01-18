@@ -22,7 +22,8 @@ const Login: React.FC = () => {
             body: JSON.stringify(formState),
         })
 
-        const { username, token } = await response.json()
+        const { username, 'auth-token': token } = await response.json()
+        console.log(token)
         if (token) {
             setUser({ username, token })
             setRedirectBack(true)
@@ -31,7 +32,7 @@ const Login: React.FC = () => {
         }
     }
     if (redirectBack) {
-        return <Redirect to={(state as any)?.from || '/history'} />
+        return <Redirect to={(state as any)?.from?.pathname || '/history'} />
     }
 
     return (
